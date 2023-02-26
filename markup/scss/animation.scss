@@ -1,0 +1,17 @@
+/**ANIMATION**/
+
+@keyframes animationArrowBottom {
+  0% {
+    transform:translateX(36px);
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform:translateX(-36px);
+  }
+}

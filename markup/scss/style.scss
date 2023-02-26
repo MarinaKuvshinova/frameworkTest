@@ -1,0 +1,1053 @@
+@import "./reset";
+@import "./animation";
+
+#wrapper {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+.container {
+    margin: 0 auto;
+    padding: 0 22px;
+
+    @include large-desktop {
+        max-width: 1920px;
+        padding: 0 80px;
+    }
+
+    @include large-desktop {
+        padding: 0 110px;
+    }
+}
+
+/**HEADER**/
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 30px 0 0;
+    @include transition;
+
+    @include desktop {
+        padding: 50px 0 0;
+    }
+
+    .container {
+        display: flex;
+    }
+
+    &.active-header {
+        background: $footer-bg;
+
+        @include desktop {
+            background: none;
+        }
+    }
+
+    &.scrolled {
+        padding: 30px 0;
+        background: $footer-bg;
+
+        @include desktop {
+            padding: 20px 0;
+        }
+    }
+
+    .logo {
+        height: 18px;
+
+        @include desktop {
+            height: 29px;
+        }
+
+        img {
+            height: 100%;
+            width: auto;
+        }
+    }
+
+}
+
+.header-nav {
+    margin: 0 0 0 auto;
+    position: relative;
+
+    .nav-open-close,
+    .social-list {
+        display: block;
+
+        @include desktop {
+            display: none;
+        }
+    }
+
+    .social-list {
+        margin-top: auto;
+        padding-top: 20px;
+    }
+}
+
+.header-nav-drop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0;
+    overflow: hidden;
+    background: $footer-bg;
+    @include transition;
+    z-index: -1;
+    
+    @include desktop { 
+        overflow: visible;
+        background: none;
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        z-index: auto;
+        height: auto;
+    }
+
+    .active-header & {
+        height: 100vh;
+        
+        @include desktop { 
+            height: auto;
+        }
+    }
+
+    .holder {
+        display: flex;
+        flex-direction: column;
+        padding: 130px 20px 40px;
+
+        @include desktop { 
+            display: block;
+            padding: 0;
+        }
+    }
+}
+
+.header-drop-menu {
+    @include transition;
+    overflow: hidden; 
+    height: 0;
+
+    @include desktop {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: $footer-bg;
+        height: 0;
+        opacity: 0;
+
+    }
+
+    ul {
+        padding: 20px;
+    }
+}
+
+.nav-open-close {
+    width: 23px;
+    height: 19px;
+    position: relative;
+    display: block;
+    border: 0;
+    text-decoration: none;
+
+    &:before,
+	&:after,
+    span {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 3px;
+		content: "";
+        @include transition;
+        background: $yellow;
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 10% 100%);
+	}
+
+    span {
+        background: $white;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+	&:after {
+        top: auto;
+        bottom: 0;
+        background: $white;
+	}
+
+    .active-header & {
+        span {
+            opacity: 0;
+        }
+
+        &:before {
+            z-index: 2;
+            transform: rotate(-45deg) translate(-6px, 6px);
+        }
+
+        &:after {
+            transform: rotate(45deg) translate(-5px,-6px) scaleX(-1);
+        }
+    }
+}
+
+/*nav*/
+.nav {
+    max-height: calc(100vh - 200px);
+    overflow: auto;
+
+    @include desktop{
+        margin: 0;
+        overflow: visible;
+        max-height: 100%;
+    }
+
+    .nav-back {
+        padding: 0 0 0 20px;
+        position: relative;
+        margin: 0 0 30px;
+        display: none;
+
+        &.active {
+            display: inline-block;
+        }
+
+        &:after {
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%) scale(-1);
+            content: "";
+            height: 10px;
+            width: 12px;
+            background: url("../images/arrow-right.svg") no-repeat;
+            position: absolute;
+        }
+
+        @include desktop{
+            display: none;
+        }
+    }
+
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        @include desktop {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    }
+
+    li {
+        position: relative;
+
+        @include desktop {
+            margin: 0 0 0 22px;
+            padding: 0;
+        }
+
+        &.active {
+            a {
+                color: $yellow;
+
+                &:after {
+                    width: 100%;
+                }
+            }
+        }
+
+        &:hover {
+            .header-drop-menu {
+                height: auto;
+                opacity: 1;
+            }
+
+            > a {
+                color: $yellow;
+
+                &:after {
+                    width: 100%;
+                }
+            }
+        }
+
+        &.has-child {
+            > a {
+                padding-right: 20px;
+                background: url("../images/arrow-right.svg") no-repeat 100% 50%;
+
+                @include desktop {
+                    padding-right: 0;
+                    background: none;
+                }
+            }
+        }
+
+        > a {
+            margin: 0 0 28px;
+            display: inline-block;
+
+            @include desktop {
+                margin: 0;
+            }
+        }
+    }
+
+    a {
+        text-decoration: none;
+        position: relative;
+
+        &:after {
+            position: absolute;
+            bottom: 0;
+            height: 1px;
+            background: currentColor;
+            left: 0;
+            width: 0;
+            content: "";
+            @include transition;
+        }
+
+        &:hover {
+            &:after {
+                width: 100%;
+            }
+        }
+    }
+}
+
+
+/**MAIN**/
+/*hero-section*/
+.hero-section {
+    position: relative;
+    overflow: hidden;
+    height: 100vh;
+    min-height: 960px;
+    padding: 50px 0;
+
+    .container {
+        height: 100%;
+        @include flexBlock;
+        flex-wrap: wrap;
+        position: relative;
+        padding-top: 50px;
+        padding-bottom: 100px;
+    }
+
+    .picture {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        font-size: 0;
+        line-height: 0;
+        z-index: -1;
+    }
+
+    .mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, rgba(19, 34, 55, 0) -31.11%, #132237 95.35%);
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .text {
+        width: 100%;
+        text-align: center;
+    }
+
+    p {
+        max-width: 583px;
+        margin: 0 auto;
+        span {
+            color: $yellow;
+        }
+    }
+
+    .scroll-down {
+        position: absolute;
+        bottom: 100px;
+        left: 50%;
+        text-decoration: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        @include flexBlock();
+        border: 1px solid $white;
+        @include transition();
+        transform: rotate(270deg) translateX(-50%);
+        overflow: hidden;
+
+        &:after {
+            background: url("../images/arrow-left.svg") no-repeat 50% 50%;
+            width: 36px;
+            height: 36px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            content: "";
+            
+        }
+
+        &:hover {
+            opacity: .6;
+
+            &:after {
+                animation: animationArrowBottom 1s cubic-bezier(0, 0.6, 1, 0.4) infinite 0.5s;
+            }
+        }
+    }
+
+}
+
+/*our-mission*/
+.our-mission {
+    .container {
+        @include desktop {
+            display: flex;
+        }
+    }
+    
+    .sub-title {
+        margin: 0 0 10px;
+
+        @include desktop {
+            padding: 15px 0 0;
+            margin: 0 20px 0 ;
+            width: 40%;
+            max-width: 340px;
+        }
+    }
+
+    .text {
+        @include desktop {
+            max-width: 864px;
+        }
+    }
+
+    p {
+        margin: 0;
+    }
+
+    .button {
+        margin: 40px 0 0;
+
+        @include desktop {
+            margin: 60px 0 0;
+        }
+    }
+}
+
+/*about-us*/
+.about-us {
+    position: relative;
+    padding: 120px 0 90px;
+
+    @include desktop {
+        padding: 160px 0;
+    }
+
+    .circle {
+        right: 0;
+        left: auto;
+        width: 158px;
+        height: 158px;
+
+        @include desktop {
+            width: 268px;
+            height: 268px;
+        }
+    }
+
+    .container {
+
+        @include desktop {
+            display: flex;
+            flex-direction: row-reverse;
+        }
+
+        > * {
+            @include desktop {
+                width: 48%;
+            }
+        }
+    }
+
+    .picture {
+        text-align: center;
+        margin: 0 0 41px;
+
+        @include desktop {
+            margin: 0 0 0 auto;
+        }
+
+        img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+
+        }
+    }
+
+    .text {
+        align-self: center;
+    }
+
+    .sub-title {
+        margin: 0 0 10px;
+
+        @include desktop {
+            margin: 0 0 20px;
+        }
+    }
+
+    h2, .h2 {
+        margin: 0 0 20px;
+    }
+
+    p {
+        margin: 0 0 20px;
+    }
+
+    .button {
+        display: inline-block;
+        min-width: 190px;
+
+        margin: 40px auto 0 0;
+    }
+
+
+}
+
+/*memberships*/
+.memberships {
+    padding: 100px 0 40px;
+    width: 100%;
+
+    @include desktop {
+        padding: 71px 0 79px;
+    }
+
+    .sub-title {
+        text-align: center;
+        margin: 0 0 57px;
+
+        @include desktop {
+            margin: 0 0 65px;
+        }
+    }
+
+    .swiper-wrapper {
+        transition-timing-function:linear!important; 
+        position: relative;
+      }
+
+    .swiper-slide {
+        width: auto;
+        padding: 0 20px;
+        display: flex;
+
+        @include desktop {
+            padding: 0 50px;
+        }
+    }
+
+    img {
+        margin: auto;
+        display: block;
+        width: auto;
+        max-width: 300px;
+        @include transition();
+    }
+
+    a:hover {
+        img {
+            opacity: .8;
+            transform: scale(.95);
+        }
+    }
+}
+
+/*info-section*/
+.info-section {
+    overflow: hidden;
+    position: relative;
+
+    .container {
+        position: relative;
+        z-index: 2;
+    }
+
+    &.slider-view {
+        padding: 96px 0 60px;
+
+        @include desktop {
+            padding: 218px 0 137px;
+        }
+
+        .mask {
+            background: linear-gradient(38.77deg, #1F376A 28.03%, rgba(31, 55, 106, 0) 77.19%);
+
+            @include desktop {
+                background: linear-gradient(38.77deg, #1F376A 37.42%, rgba(31, 55, 106, 0) 86.58%);
+            }
+        }
+
+        .swiper-wrapper {
+            @include desktop {
+                display: flex;
+            }
+        }
+
+        .info-item {
+            padding: 0;
+            @include desktop {
+                height: auto;
+            }
+
+            .sub-title {
+                margin: 0 0 23px;
+
+                @include desktop {
+                    margin: 0 0 32px;
+                }
+            }
+
+            h2, .h2 {
+                margin: 0 0 20px;
+
+                @include desktop {
+                    max-width: 1147px;
+                    margin: 0 auto 32px;
+                }
+            }
+
+            .button {
+                margin: auto 0 0;
+            }
+        }
+    }
+}
+
+.info-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    line-height: 0;
+
+    img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    .mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(359.29deg, #1F376A 0.62%, rgba(31, 55, 106, 0.4) 99.39%);
+    }
+}
+
+.info-item {
+    @include flexBlock;
+    flex-direction: column;
+    padding: 112px 0 91px;
+    text-align: center;
+
+    @include desktop {
+        padding: 188px 0 142px;
+    }
+
+    .sub-title {
+        margin: 0 0 20px;
+    }
+
+    .button {
+        margin: 40px 0 0;
+
+        @include desktop {
+            margin: 58px 0 0;
+        }
+    }
+
+    h2, .h2 {
+        
+        max-width: 910px;
+        margin: 0 auto;
+    }
+
+    .text {
+        margin: 0 auto 40px;
+        max-width: 681px;
+    }
+
+    p {
+        margin: 0 0 10px;
+    }
+}
+
+/*media-section*/
+.media-section {
+    position: relative;
+    padding: 47px 0 80px;
+    @include desktop {
+        padding: 64px 0 124px;
+    }
+
+    h2, .h2 {
+        margin: 0 0 30px;
+
+        @include desktop {
+            margin: 0 0 52px;
+        }
+    }
+
+    .swiper-controller {
+        justify-content: space-between;
+        padding: 20px 0 0;
+        width: 130px;
+
+        @include desktop {
+            padding: 30px 0 0;
+        }
+    }
+
+    .circle {
+        display: none;
+
+        @include desktop {
+            display: block;
+            top: 258px;
+            left: 50%;
+            margin: 0 0 0 -844px;
+        }
+
+    }
+}
+
+.media-item {
+    position: relative;
+    overflow: hidden;
+    max-width: 326px;
+    width: 86vw;
+
+    @include desktop {
+        max-width: 445px;
+    }
+
+    .picture {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    
+    .mask {
+        background: linear-gradient(359.48deg, #0C1623 26.57%, rgba(12, 22, 35, 0) 99.56%);
+        position: absolute;
+        top: 14px;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    .text {
+        position: relative;
+        z-index: 2;
+        min-height: 431px;
+        padding: 17px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+
+        @include desktop {
+            min-height: 587px;
+            padding: 24px 20px 30px;
+        }
+    }
+
+    .tag {
+        margin: 0 auto auto 0;
+    }
+
+    .text-holder {
+        margin: 0 0 29px;
+
+        @include desktop {
+            margin: 0 0 70px;
+        }
+    }
+
+    .date {
+        font-style: normal;
+        text-transform: uppercase;
+        display: block;
+        font-size: .75em;
+        letter-spacing: 0.3em;
+        line-height: 1.229;
+        margin: 0 auto 10px 0;
+    }
+
+    h5, .h5 {
+        margin: 0 0 10px;
+
+        @include desktop {
+            margin: 0 0 20px;
+        }
+    }
+
+    p {
+        opacity: .6;
+        margin: 0;
+    }
+}
+
+
+/**FOOTER**/
+.footer {
+    background: $footer-bg;
+
+    .container {
+        position: relative;
+    }
+
+}
+
+.footer-columns {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 50px 0 0;
+    justify-content: space-between;
+
+    @include desktop {
+        padding: 86px 0;
+    }
+
+    > *:not(.footer-social)  {
+        width: 100%;
+        padding: 0 0 50px;
+        
+        @include tablet { 
+            width: 50%;
+        }
+        
+        @include desktop { 
+            padding: 0;
+            width: auto;
+        }
+    }
+
+    .sub-title {
+        font-size: .75;
+        line-height: 1.229;
+        margin: 0 0 26px;
+        color: currentColor;
+    }
+}
+ 
+/*footer-logo*/
+.footer-logo {
+}
+
+/*footer-contact*/
+.footer-contact {
+    > * {
+        display: block;
+    }
+
+    .sub-title {
+        margin: 0 0 26px;
+    }
+
+    .row {
+        line-height: 1.37;
+        letter-spacing: 0.01em;
+        font-size: 1.375em;
+
+        @include desktop{
+            font-size: 1.875em;
+        }
+
+        + .row {
+            margin: 0 0 22px;
+
+            @include desktop{
+                margin: 0 0 28px;
+            }
+        }
+    }
+
+    a {
+        @include desktop{
+            display: inline-block;
+            border-bottom: 1px solid currentColor;
+            padding: 0 0 5px;
+            text-decoration: none;
+       }
+
+        &:hover {
+            border-color: transparent;
+        }
+    }
+}
+
+/*footer-nav*/
+.footer-nav {
+
+    .sub-title {
+        @include desktop {
+            font-size: .75em;
+            line-height: 1.229;
+            margin: 0 0 26px;
+        }
+    }
+
+    nav {
+        display: flex;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        + ul {
+            padding-left: 50px;
+        }
+    }
+
+    a {
+        text-decoration: none;
+        opacity: .6;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}
+
+/*footer-social*/
+.footer-social {
+    position: absolute;
+    top: 50px;
+    right: 22px;
+
+    @include desktop { 
+        position: relative;
+        top: auto;
+        right: auto;
+    }
+
+    .social-list {
+        justify-content: flex-end;
+    }
+}
+
+.social-list {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    a:hover {
+        color: $yellow;
+    }
+
+    path {
+        fill: currentColor;
+        @include transition();  
+    }
+}
+
+/*footer-copyright*/
+.footer-copyright {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 25px 0;
+
+    > * {
+        width: 100%;
+
+        @include tablet { 
+            max-width: 48%;
+        }
+    }
+
+    .left {
+        padding-top: 20px;
+
+        @include tablet { 
+            padding: 0;
+            margin: 0 0 0 auto;
+            text-align: right;
+        }
+    }
+
+    p {
+        margin: 0;
+    }
+
+    a {
+        text-decoration: none;
+        color: currentColor;
+
+        &:hover {
+            color: $yellow;
+            path{
+                fill: $yellow;
+            }
+        }
+
+    }
+
+    path {   
+        @include transition();       
+    }
+}
+
+.copyright {
+    display: flex;
+    flex-wrap: wrap;
+
+    p {
+        margin: 0;
+    }
+}
